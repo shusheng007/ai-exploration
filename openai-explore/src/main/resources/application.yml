@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: openai-explore
+
+langchain4j:
+  open-ai:
+    chat-model:
+#       api-key: ${OPENAI_API_KEY}
+       api-key: demo
+       log-requests: true
+       log-responses: true
