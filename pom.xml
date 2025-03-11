@@ -16,17 +16,14 @@
         <module>openai-explore</module>
     </modules>
 
-    <groupId>top.ss007</groupId>
-    <artifactId>ai-explore</artifactId>
+    <groupId>top.shusheng007</groupId>
+    <artifactId>ai-exploration</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ai-explore</name>
-    <description>ai-explore</description>
+    <name>ai-exploration</name>
+    <description>ai-exploration</description>
 
     <properties>
         <java.version>17</java.version>
-        <langchain4j-open-ai-starter.version>0.29.1</langchain4j-open-ai-starter.version>
-        <langchain4j-starter.version>0.29.1</langchain4j-starter.version>
-        <langchain4j-easy-rag.version>0.29.1</langchain4j-easy-rag.version>
     </properties>
 
 
@@ -56,25 +53,13 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/dev.langchain4j/langchain4j-open-ai-spring-boot-starter -->
             <dependency>
                 <groupId>dev.langchain4j</groupId>
-                <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
-                <version>${langchain4j-open-ai-starter.version}</version>
+                <artifactId>langchain4j-bom</artifactId>
+                <version>1.0.0-beta1</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>dev.langchain4j</groupId>
-                <artifactId>langchain4j-spring-boot-starter</artifactId>
-                <version>${langchain4j-starter.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>dev.langchain4j</groupId>
-                <artifactId>langchain4j-easy-rag</artifactId>
-                <version>${langchain4j-easy-rag.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

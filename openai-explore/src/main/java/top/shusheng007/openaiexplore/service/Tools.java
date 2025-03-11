@@ -1,4 +1,4 @@
-package top.ss007.openaiexplore.service;
+package top.shusheng007.openaiexplore.service;
 
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;

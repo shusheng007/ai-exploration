@@ -1,4 +1,4 @@
-package top.ss007.openaiexplore;
+package top.shusheng007.openaiexplore;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

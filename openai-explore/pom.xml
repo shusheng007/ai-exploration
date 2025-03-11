@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>top.ss007</groupId>
-        <artifactId>ai-explore</artifactId>
+        <groupId>top.shusheng007</groupId>
+        <artifactId>ai-exploration</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>top.ss007</groupId>
+    <groupId>top.shusheng007</groupId>
     <artifactId>openai-explore</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>openai-explore</name>
@@ -33,12 +33,12 @@
 
         <dependency>
             <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
+            <artifactId>langchain4j-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
             <groupId>dev.langchain4j</groupId>
-            <artifactId>langchain4j-spring-boot-starter</artifactId>
+            <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

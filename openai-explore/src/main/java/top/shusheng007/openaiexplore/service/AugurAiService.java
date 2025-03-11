@@ -1,11 +1,11 @@
-package top.ss007.openaiexplore.service;
+package top.shusheng007.openaiexplore.service;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
 import dev.langchain4j.service.spring.AiService;
-import top.ss007.openaiexplore.domain.GovReport;
-import top.ss007.openaiexplore.domain.Student;
+import top.shusheng007.openaiexplore.domain.GovReport;
+import top.shusheng007.openaiexplore.domain.Student;
 
 @AiService
 public interface AugurAiService {

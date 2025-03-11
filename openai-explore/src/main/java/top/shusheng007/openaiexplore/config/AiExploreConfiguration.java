@@ -1,4 +1,4 @@
-package top.ss007.openaiexplore.config;
+package top.shusheng007.openaiexplore.config;
 
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.loader.FileSystemDocumentLoader;
@@ -11,7 +11,6 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @Configuration

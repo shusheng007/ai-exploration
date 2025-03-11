@@ -1,10 +1,10 @@
-package top.ss007.openaiexplore;
+package top.shusheng007.openaiexplore;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import top.ss007.openaiexplore.domain.GovReport;
-import top.ss007.openaiexplore.domain.Student;
-import top.ss007.openaiexplore.service.AugurAiService;
+import top.shusheng007.openaiexplore.domain.GovReport;
+import top.shusheng007.openaiexplore.domain.Student;
+import top.shusheng007.openaiexplore.service.AugurAiService;
 
 @RequiredArgsConstructor
 @RestController

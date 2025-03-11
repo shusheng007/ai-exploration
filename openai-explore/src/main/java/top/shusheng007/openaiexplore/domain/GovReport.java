@@ -1,4 +1,4 @@
-package top.ss007.openaiexplore.domain;
+package top.shusheng007.openaiexplore.domain;
 
 import lombok.Data;
 

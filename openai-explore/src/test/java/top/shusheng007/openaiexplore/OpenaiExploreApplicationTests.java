@@ -1,4 +1,4 @@
-package top.ss007.openaiexplore;
+package top.shusheng007.openaiexplore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
