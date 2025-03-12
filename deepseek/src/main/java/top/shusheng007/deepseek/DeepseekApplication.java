@@ -1,13 +1,13 @@
-package top.shusheng007.openaiexplore;
+package top.shusheng007.deepseek;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OpenaiExploreApplication {
+public class DeepseekApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OpenaiExploreApplication.class, args);
+        SpringApplication.run(DeepseekApplication.class, args);
     }
 
 }

@@ -1,11 +1,13 @@
-package top.shusheng007.openaiexplore.service;
+package top.shusheng007.deepseek.service;
 
+import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
 import dev.langchain4j.service.spring.AiService;
-import top.shusheng007.openaiexplore.domain.GovReport;
-import top.shusheng007.openaiexplore.domain.Student;
+import top.shusheng007.deepseek.domain.GovReport;
+import top.shusheng007.deepseek.domain.Student;
+
 
 @AiService
 public interface AugurAiService {
@@ -18,7 +20,7 @@ public interface AugurAiService {
 
 
     @UserMessage("Extract information about a student from {{it}}")
-    Student extractStudentFrom(String text);
+    AiMessage extractStudentFrom(String text);
 
 
     @UserMessage("总结一下这个网页{{it}}的重要信息")
@@ -27,4 +29,7 @@ public interface AugurAiService {
 
     @UserMessage("中国2024年政府工作报告要点都有什么?")
     GovReport summaryReport();
+
+    @UserMessage("中国2024年政府工作报告要点都有什么?")
+    AiMessage summaryReport2();
 }
