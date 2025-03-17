@@ -1,30 +1,17 @@
 package top.shusheng007.deepseek.application;
 
-import dev.langchain4j.agent.tool.*;
 import dev.langchain4j.data.message.AiMessage;
-import dev.langchain4j.data.message.ChatMessage;
-import dev.langchain4j.data.message.ToolExecutionResultMessage;
-import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.model.chat.ChatLanguageModel;
-import dev.langchain4j.model.chat.request.ChatRequest;
-import dev.langchain4j.model.chat.request.ChatRequestParameters;
-import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.output.FinishReason;
 import dev.langchain4j.model.output.TokenUsage;
 import dev.langchain4j.rag.content.Content;
 import dev.langchain4j.service.Result;
-import dev.langchain4j.service.tool.DefaultToolExecutor;
 import dev.langchain4j.service.tool.ToolExecution;
-import dev.langchain4j.service.tool.ToolExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import top.shusheng007.deepseek.domain.Order;
 import top.shusheng007.deepseek.service.AssistantAiService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Copyright (C) 2023 ShuSheng007
@@ -36,7 +23,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ChatRobotService {
+public class AssistantService {
     private final AssistantAiService assistantAiService;
 
 
@@ -49,7 +36,12 @@ public class ChatRobotService {
         TokenUsage tokenUsage = result.tokenUsage();
         List<ToolExecution> toolExecutions = result.toolExecutions();
 
-        log.info("result:{},{},{}",content.text(),finishReason.toString(),toolExecutions.toString() );
+        log.info("==chat-result==");
+        log.info("content:{}", content.text());
+        log.info("finishReason:{}", finishReason.toString());
+        log.info("toolExecutions:{}", toolExecutions.toString());
+        log.info("tokenUsage:{}", tokenUsage);
+        log.info("sources:{}", sources);
 
         return result.content().text();
     }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.shusheng007.deepseek.application.ChatRobotService;
+import top.shusheng007.deepseek.application.AssistantService;
 
 /**
  * Copyright (C) 2023 ShuSheng007
@@ -21,13 +21,13 @@ import top.shusheng007.deepseek.application.ChatRobotService;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("chat-robot/")
+@RequestMapping("ai-assistant/")
 public class ChatRobotController {
-    private final ChatRobotService chatRobotService;
+    private final AssistantService assistantService;
 
     @PostMapping("chat")
     public String chat(@RequestBody AssistantRequest request) {
-        return chatRobotService.chat(request.userId, request.getUserMessage());
+        return assistantService.chat(request.userId, request.getUserMessage());
     }
 
     @Setter

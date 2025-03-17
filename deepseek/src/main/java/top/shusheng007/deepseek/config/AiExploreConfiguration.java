@@ -37,6 +37,7 @@ import org.springframework.core.env.Environment;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Configuration
@@ -44,13 +45,14 @@ public class AiExploreConfiguration {
 
 //    @Bean
 //    OpenAiChatModel openAiChatModel() {
+//        String openai_api_key = System.getenv("OPENAI_API_KEY");
 //        OpenAiChatModel model = OpenAiChatModel.builder()
-//                .baseUrl("http://langchain4j.dev/demo/openai/v1")
-////                .apiKey(System.getenv("DS_API_KEY"))
+//                .baseUrl("https://langchain4j.dev/demo/openai/v1")
+////                .apiKey(openai_api_key)
 //                .apiKey("demo")
 ////                .baseUrl("https://api.deepseek.com")
 ////                .modelName("deepseek-chat") //DeepSeek-V3
-//                .modelName("gpt-4o-mini") //DeepSeek-V3
+//                .modelName("gpt-4o-mini")
 //                .temperature(1.3)
 //                .timeout(Duration.ofSeconds(60))
 //                .topP(0.8)
@@ -73,33 +75,34 @@ public class AiExploreConfiguration {
             @Override
             public void onRequest(ChatModelRequestContext requestContext) {
                 ChatRequest chatRequest = requestContext.chatRequest();
+                log.info("=====================onRequest===========================");
 
                 List<ChatMessage> messages = chatRequest.messages();
-                log.info("{}", messages);
+                log.info("request chatMessages: {}", messages);
 
                 ChatRequestParameters parameters = chatRequest.parameters();
-                log.info("{}", parameters.modelName());
-                log.info("{}", parameters.temperature());
-                log.info("{}", parameters.topP());
-                log.info("{}", parameters.topK());
-                log.info("{}", parameters.frequencyPenalty());
-                log.info("{}", parameters.presencePenalty());
-                log.info("{}", parameters.maxOutputTokens());
-                log.info("{}", parameters.stopSequences());
-                log.info("{}", parameters.toolSpecifications());
-                log.info("{}", parameters.toolChoice());
-                log.info("{}", parameters.responseFormat());
+                log.info("modelName:{}", parameters.modelName());
+                log.info("temperature:{}", parameters.temperature());
+                log.info("topP:{}", parameters.topP());
+                log.info("topK:{}", parameters.topK());
+                log.info("frequencyPenalty:{}", parameters.frequencyPenalty());
+                log.info("presencePenalty:{}", parameters.presencePenalty());
+                log.info("maxOutputTokens:{}", parameters.maxOutputTokens());
+                log.info("stopSequences:{}", parameters.stopSequences());
+                log.info("toolSpecifications:{}", parameters.toolSpecifications());
+                log.info("toolChoice:{}", parameters.toolChoice());
+                log.info("responseFormat:{}", parameters.responseFormat());
 
                 if (parameters instanceof OpenAiChatRequestParameters openAiParameters) {
-                    log.info("{}", openAiParameters.maxCompletionTokens());
-                    log.info("{}", openAiParameters.logitBias());
-                    log.info("{}", openAiParameters.parallelToolCalls());
-                    log.info("{}", openAiParameters.seed());
-                    log.info("{}", openAiParameters.user());
-                    log.info("{}", openAiParameters.store());
-                    log.info("{}", openAiParameters.metadata());
-                    log.info("{}", openAiParameters.serviceTier());
-                    log.info("{}", openAiParameters.reasoningEffort());
+                    log.info("maxCompletionTokens:{}", openAiParameters.maxCompletionTokens());
+                    log.info("logitBias:{}", openAiParameters.logitBias());
+                    log.info("parallelToolCalls:{}", openAiParameters.parallelToolCalls());
+                    log.info("seed:{}", openAiParameters.seed());
+                    log.info("user:{}", openAiParameters.user());
+                    log.info("store:{}", openAiParameters.store());
+                    log.info("metadata:{}", openAiParameters.metadata());
+                    log.info("serviceTier:{}", openAiParameters.serviceTier());
+                    log.info("reasoningEffort:{}", openAiParameters.reasoningEffort());
                 }
 
                 Map<Object, Object> attributes = requestContext.attributes();
@@ -109,47 +112,50 @@ public class AiExploreConfiguration {
             @Override
             public void onResponse(ChatModelResponseContext responseContext) {
                 ChatResponse chatResponse = responseContext.chatResponse();
+                log.info("=====================onResponse===========================");
 
                 AiMessage aiMessage = chatResponse.aiMessage();
-                log.info("{}", aiMessage);
+                log.info("response aiMessage:{}", aiMessage);
 
                 ChatResponseMetadata metadata = chatResponse.metadata();
-                log.info("{}", metadata.id());
-                log.info("{}", metadata.modelName());
-                log.info("{}", metadata.finishReason());
+                log.info("id:{}", metadata.id());
+                log.info("modelName:{}", metadata.modelName());
+                log.info("finishReason:{}", metadata.finishReason());
 
                 if (metadata instanceof OpenAiChatResponseMetadata openAiMetadata) {
-                    log.info("{}", openAiMetadata.created());
-                    log.info("{}", openAiMetadata.serviceTier());
-                    log.info("{}", openAiMetadata.systemFingerprint());
+                    log.info("created:{}", openAiMetadata.created());
+                    log.info("serviceTier:{}", openAiMetadata.serviceTier());
+                    log.info("systemFingerprint:{}", openAiMetadata.systemFingerprint());
                 }
 
                 TokenUsage tokenUsage = metadata.tokenUsage();
-                log.info("{}", tokenUsage.inputTokenCount());
-                log.info("{}", tokenUsage.outputTokenCount());
-                log.info("{}", tokenUsage.totalTokenCount());
-//                if (tokenUsage instanceof OpenAiTokenUsage openAiTokenUsage) {
-//                    log.info("{}", openAiTokenUsage.inputTokensDetails().cachedTokens());
-//                    log.info("{}", openAiTokenUsage.outputTokensDetails().reasoningTokens());
-//                }
+                log.info("inputTokenCount:{}", tokenUsage.inputTokenCount());
+                log.info("outputTokenCount:{}", tokenUsage.outputTokenCount());
+                log.info("totalTokenCount:{}", tokenUsage.totalTokenCount());
+                if (tokenUsage instanceof OpenAiTokenUsage openAiTokenUsage) {
+                    log.info("cachedTokens:{}", Optional.ofNullable(openAiTokenUsage.inputTokensDetails())
+                            .map(OpenAiTokenUsage.InputTokensDetails::cachedTokens).orElse(null));
+                    log.info("reasoningTokens:{}", Optional.ofNullable(openAiTokenUsage.outputTokensDetails())
+                            .map(OpenAiTokenUsage.OutputTokensDetails::reasoningTokens).orElse(null));
+                }
 
                 ChatRequest chatRequest = responseContext.chatRequest();
-                log.info("{}", chatRequest);
+                log.info("chatRequest:{}", chatRequest);
 
                 Map<Object, Object> attributes = responseContext.attributes();
-                log.info("{}", attributes.get("my-attribute"));
+                log.info("my-attribute:{}", attributes.get("my-attribute"));
             }
 
             @Override
             public void onError(ChatModelErrorContext errorContext) {
-                Throwable error = errorContext.error();
-                error.printStackTrace();
+                log.info("=====================onError===========================");
+                log.error("error", errorContext.error());
 
                 ChatRequest chatRequest = errorContext.chatRequest();
-                log.info("{}", chatRequest);
+                log.info("chatRequest:{}", chatRequest);
 
                 Map<Object, Object> attributes = errorContext.attributes();
-                log.info("{}", attributes.get("my-attribute"));
+                log.info("my-attribute:{}", attributes.get("my-attribute"));
             }
         };
 
@@ -160,24 +166,24 @@ public class AiExploreConfiguration {
     @Bean
     public ChatMemoryProvider chatMemoryProvider() {
         return memoryId -> MessageWindowChatMemory.builder()
-                .maxMessages(10)
+                .maxMessages(15)
                 .chatMemoryStore(new InMemoryChatMemoryStore())
                 .id(memoryId).build();
     }
 
-//    @Bean
-//    public EmbeddingStore embeddingStore() {
-//        List<Document> documents = FileSystemDocumentLoader.loadDocuments("./data");
-//        InMemoryEmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-//        EmbeddingStoreIngestor.ingest(documents, embeddingStore);
-//
-//        return embeddingStore;
-//    }
-//
-//    @Bean
-//    public ContentRetriever contentRetriever() {
-//        return EmbeddingStoreContentRetriever.from(embeddingStore());
-//    }
+    @Bean
+    public EmbeddingStore embeddingStore() {
+        List<Document> documents = FileSystemDocumentLoader.loadDocuments("./data");
+        InMemoryEmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
+        EmbeddingStoreIngestor.ingest(documents, embeddingStore);
+
+        return embeddingStore;
+    }
+
+    @Bean
+    public ContentRetriever contentRetriever() {
+        return EmbeddingStoreContentRetriever.from(embeddingStore());
+    }
 
 
 }

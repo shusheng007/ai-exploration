@@ -1,6 +1,7 @@
 package top.shusheng007.deepseek.domain;
 
 import dev.langchain4j.model.output.structured.Description;
+import dev.langchain4j.service.V;
 import lombok.Data;
 
 import java.math.BigDecimal;
