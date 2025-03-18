@@ -15,18 +15,18 @@ import java.io.IOException;
 @Component
 public class Tools {
 
-    @Tool(name = "webParser", value = {"基于给定的web url获取其内容"})
-    public String getWebPageContent(@P("url of the page") String url) {
-        log.info("call webParser");
-
-        Document jsoupDocument = null;
-        try {
-            jsoupDocument = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return jsoupDocument.body().text();
-    }
+//    @Tool(name = "webParser", value = {"基于给定的web url获取其内容"})
+//    public String getWebPageContent(@P("url of the page") String url) {
+//        log.info("call webParser");
+//
+//        Document jsoupDocument = null;
+//        try {
+//            jsoupDocument = Jsoup.connect(url).get();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return jsoupDocument.body().text();
+//    }
 
     @Tool(name = "createOrder", value = {"向美团等外卖服务平台下单并返回结果"})
     public String makeOrder(@P("the order detail that be send to purchase platform") Order order) {

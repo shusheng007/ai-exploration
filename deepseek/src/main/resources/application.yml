@@ -1,6 +1,10 @@
 spring:
   application:
     name: deepseek-exploration
+  http:
+    client:
+      factory: http_components
+
 
 langchain4j:
   open-ai:

@@ -30,10 +30,29 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.apache.hc.core5.ssl.TrustStrategy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestClient;
 
+import javax.net.ssl.SSLContext;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +61,9 @@ import java.util.Optional;
 @Slf4j
 @Configuration
 public class AiExploreConfiguration {
+
+    @Value("${spring.profiles.active:}")
+    private String activeProfile;
 
 //    @Bean
 //    OpenAiChatModel openAiChatModel() {
@@ -183,6 +205,39 @@ public class AiExploreConfiguration {
     @Bean
     public ContentRetriever contentRetriever() {
         return EmbeddingStoreContentRetriever.from(embeddingStore());
+    }
+
+    @Bean
+    public RestClient.Builder restClientBuilder() {
+        if (List.of("dev").contains(activeProfile)) {
+            try {
+                TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
+
+                SSLContext sslContext = SSLContexts.custom()
+                        .loadTrustMaterial(null, acceptingTrustStrategy)
+                        .build();
+
+                DefaultClientTlsStrategy csf = new DefaultClientTlsStrategy(sslContext,NoopHostnameVerifier.INSTANCE);
+
+                PoolingHttpClientConnectionManager connectionManager = PoolingHttpClientConnectionManagerBuilder.create()
+                        .setTlsSocketStrategy(csf)
+                        .build();
+                CloseableHttpClient httpClient = HttpClients.custom()
+                        .setConnectionManager(connectionManager)
+                        .build();
+
+                HttpComponentsClientHttpRequestFactory requestFactory =
+                        new HttpComponentsClientHttpRequestFactory();
+                requestFactory.setHttpClient(httpClient);
+
+                return RestClient.builder().requestFactory(requestFactory);
+            } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
+                log.error("ignore certificate failed", e);
+            }
+        }
+
+        return RestClient.builder();
+
     }
 
 
