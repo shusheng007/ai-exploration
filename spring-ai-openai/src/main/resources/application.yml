@@ -10,3 +10,8 @@ spring:
       base-url: https://api.deepseek.com
       embedding:
         enabled: false
+
+logging:
+  level:
+    root: info
+    org.springframework.ai: debug
