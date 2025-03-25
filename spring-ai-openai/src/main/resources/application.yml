@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: spring-ai-openai
+  ai:
+    openai:
+      api-key: ${DS_API_KEY}
+      chat:
+        options:
+          model: deepseek-reasoner
+      base-url: https://api.deepseek.com
+      embedding:
+        enabled: false

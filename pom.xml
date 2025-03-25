@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>deepseek</module>
+        <module>spring-ai-openai</module>
     </modules>
 
     <parent>
@@ -59,8 +60,18 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>1.0.0-M6</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
+
 
 
     <build>
