@@ -38,15 +38,15 @@ public class AiConfiguration {
 
 
 
-    @Bean
-    public VectorStore vectorStore(EmbeddingModel embeddingModel){
-        SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(embeddingModel).build();
-
-        TextReader textReader = new TextReader("classpath:static/private_data.txt");
-        List<Document> documents = textReader.get();
-
-        simpleVectorStore.add(documents);
-
-        return simpleVectorStore;
-    }
+//    @Bean
+//    public VectorStore vectorStore(EmbeddingModel embeddingModel){
+//        SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(embeddingModel).build();
+//
+//        TextReader textReader = new TextReader("classpath:static/private_data.txt");
+//        List<Document> documents = textReader.get();
+//
+//        simpleVectorStore.add(documents);
+//
+//        return simpleVectorStore;
+//    }
 }

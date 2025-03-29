@@ -1,15 +1,28 @@
 spring:
   application:
     name: spring-ai-openai
+  datasource:
+    url: jdbc:postgresql://localhost:5434/postgres
+    username: postgres
+    password: postgres
   ai:
     openai:
-      api-key: ${DS_API_KEY}
+#      api-key: ${DS_API_KEY}
+      api-key: ${GPT_API_KEY_FREE}
       chat:
         options:
           model: deepseek-reasoner
-      base-url: https://api.deepseek.com
-      embedding:
-        enabled: false
+#      base-url: https://api.deepseek.com
+      base-url: https://api.chatanywhere.org
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 1536
+        batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
+        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+
 
 logging:
   level:
