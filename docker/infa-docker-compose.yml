@@ -3,12 +3,16 @@ services:
     image: pgvector/pgvector:pg17
     environment:
       POSTGRES_DB: vectordb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: vector-admin
+      POSTGRES_PASSWORD: vector-admin
     ports:
       - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
+volumes:
+  postgres_data:

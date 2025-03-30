@@ -2,18 +2,19 @@ spring:
   application:
     name: spring-ai-openai
   datasource:
-    url: jdbc:postgresql://localhost:5434/postgres
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5434/vectordb
+    username: vector-admin
+    password: vector-admin
   ai:
     openai:
 #      api-key: ${DS_API_KEY}
       api-key: ${GPT_API_KEY_FREE}
       chat:
         options:
-          model: deepseek-reasoner
+#          model: deepseek-chat
+          model: gpt-4o-mini
 #      base-url: https://api.deepseek.com
-      base-url: https://api.chatanywhere.org
+      base-url: https://api.chatanywhere.tech
     vectorstore:
       pgvector:
         initialize-schema: true
@@ -28,3 +29,4 @@ logging:
   level:
     root: info
     org.springframework.ai: debug
+    org.springframework.web.client.RestClient: DEBUG
