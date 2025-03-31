@@ -24,7 +24,7 @@ public class IngestionService {
     public void ingestData() {
         TextReader txtReader = new TextReader(personInfo);
         TextSplitter textSplitter = new TokenTextSplitter();
-        vectorStore.accept(textSplitter.apply(txtReader.get()));
+        vectorStore.write(textSplitter.split(txtReader.get()));
 
         log.info("Vector store loaded with data");
     }
