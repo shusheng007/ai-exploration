@@ -1,4 +1,4 @@
-package top.shusheng007.springaiopenai.web.dto;
+package top.shusheng007.springaiopenai.facade.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

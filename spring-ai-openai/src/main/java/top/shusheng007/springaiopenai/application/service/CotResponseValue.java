@@ -1,4 +1,4 @@
-package top.shusheng007.springaiopenai.service;
+package top.shusheng007.springaiopenai.application.service;
 
 
 

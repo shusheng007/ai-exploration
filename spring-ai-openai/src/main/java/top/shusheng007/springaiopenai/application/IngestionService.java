@@ -23,6 +23,8 @@ public class IngestionService {
 
     public void ingestData() {
         TextReader txtReader = new TextReader(personInfo);
+        txtReader.getCustomMetadata().put("filename", "private_data.txt");
+
         TextSplitter textSplitter = new TokenTextSplitter();
         vectorStore.write(textSplitter.split(txtReader.get()));
 

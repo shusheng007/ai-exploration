@@ -1,4 +1,4 @@
-package top.shusheng007.springaiopenai.config;
+package top.shusheng007.springaiopenai.infrastructure.config;
 
 import org.springframework.ai.autoconfigure.openai.OpenAiEmbeddingProperties;
 import org.springframework.ai.chat.client.ChatClient;
@@ -36,17 +36,4 @@ public class AiConfiguration {
                 .build();
     }
 
-
-
-//    @Bean
-//    public VectorStore vectorStore(EmbeddingModel embeddingModel){
-//        SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(embeddingModel).build();
-//
-//        TextReader textReader = new TextReader("classpath:static/private_data.txt");
-//        List<Document> documents = textReader.get();
-//
-//        simpleVectorStore.add(documents);
-//
-//        return simpleVectorStore;
-//    }
 }

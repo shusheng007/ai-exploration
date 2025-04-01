@@ -3,8 +3,8 @@ spring:
     name: spring-ai-openai
   datasource:
     url: jdbc:postgresql://localhost:5434/vectordb
-    username: vector-admin
-    password: vector-admin
+    username: postgres
+    password: postgres
   ai:
     openai:
 #      api-key: ${DS_API_KEY}
