@@ -1,8 +1,9 @@
 package top.shusheng007.springaiopenai.infrastructure.config;
 
-import org.springframework.ai.autoconfigure.openai.OpenAiEmbeddingProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
@@ -19,13 +20,16 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Configuration
 public class AiConfiguration {
+//    private final VectorStore vectorStore;
 
     @Bean
     public ChatMemory chatMemory(){
         return new InMemoryChatMemory();
     }
+
 
     @Bean
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder){
@@ -33,6 +37,8 @@ public class AiConfiguration {
                 .defaultSystem("You are a helpful assistant")
                 .defaultAdvisors(new SimpleLoggerAdvisor())
                 .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory()))
+//                .defaultAdvisors(new PromptChatMemoryAdvisor(chatMemory())
+//                .defaultAdvisors(VectorStoreChatMemoryAdvisor.builder(vectorStore).build())
                 .build();
     }
 

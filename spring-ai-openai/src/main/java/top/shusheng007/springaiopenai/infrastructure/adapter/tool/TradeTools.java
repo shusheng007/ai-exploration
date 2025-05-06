@@ -26,24 +26,23 @@ import java.util.List;
 public class TradeTools {
 
     @Tool(name = "selectProducts", description = "Search for products through third-party e-commerce platforms")
-    public List<Product> selectProducts(@ToolParam(description = "Filters for product search") List<ProductFilter> productFilters) {
-        log.info("start search products:{}", productFilters);
+    public List<Product> selectProducts(@ToolParam(description = "Filters for product search") ProductFilter productFilter) {
+        log.info("start search products:{}", productFilter);
 
-        Product product1 = new Product("p-101", "name", BigDecimal.valueOf(40), "des");
-        Product product2 = new Product("p-102", "name", BigDecimal.valueOf(10), "des");
-        Product product3 = new Product("p-103", "name", BigDecimal.valueOf(100), "des");
+        Product product1 = new Product("p-101", "牛肉饭", BigDecimal.valueOf(40), "传统技艺，慢火炖煮3小时");
+        Product product2 = new Product("p-102", "可乐", BigDecimal.valueOf(4), "无糖可乐");
+        Product product3 = new Product("p-103", "牛肉饭", BigDecimal.valueOf(100), "日本和牛，回味无穷");
         List<Product> allProducts = List.of(product1, product2, product3);
 
         List<Product> resultList = new ArrayList<>();
-        for (ProductFilter filter : productFilters) {
-            for (Product product : allProducts) {
-                if (isMatch(filter, product)) {
-                    //get the first
-                    resultList.add(product);
-                    break;
-                }
+        for (Product product : allProducts) {
+            if (isMatch(productFilter, product)) {
+                //get the first
+                resultList.add(product);
+                break;
             }
         }
+
 
         log.info("stop search products:{}", resultList);
 
@@ -67,11 +66,12 @@ public class TradeTools {
     }
 
     @Tool(name = "makeOrder", description = "request third party purchase platform to make an order")
-    public Order makeOrder(@ToolParam(description = "The order is constructed using the products queried in the previous step") Order order, ToolContext toolContext) {
+    public Order makeOrder(@ToolParam(description = "The order is constructed using the products queried in the previous step") Order order) {
         log.info("start make order");
 
         //call third party service make order
-        order.setOrderId(String.valueOf(toolContext.getContext().get("myOrderId")));
+//        order.setOrderId(String.valueOf(toolContext.getContext().get("myOrderId")));
+        order.setOrderId("sng-001");
 
         log.info("stop make order");
 
