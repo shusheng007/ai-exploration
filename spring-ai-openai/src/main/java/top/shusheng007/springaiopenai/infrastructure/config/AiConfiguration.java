@@ -34,8 +34,8 @@ public class AiConfiguration {
     @Bean
     public ChatClient chatClient(ChatClient.Builder chatClientBuilder){
         return chatClientBuilder
-                .defaultSystem("You are a helpful assistant")
-                .defaultAdvisors(new SimpleLoggerAdvisor())
+//                .defaultSystem("You are a helpful assistant")
+                .defaultAdvisors(new SimpleLoggerAdvisor())//for log
                 .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory()))
 //                .defaultAdvisors(new PromptChatMemoryAdvisor(chatMemory())
 //                .defaultAdvisors(VectorStoreChatMemoryAdvisor.builder(vectorStore).build())

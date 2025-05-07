@@ -3,8 +3,8 @@ spring:
     name: spring-ai-openai
   datasource:
     url: jdbc:postgresql://localhost:5434/vectordb
-    username: postgres
-    password: postgres
+    username: vector-admin
+    password: vector-admin
   ai:
     openai:
 #      api-key: ${DS_API_KEY}
@@ -13,6 +13,7 @@ spring:
         options:
 #          model: deepseek-chat
           model: gpt-4o-mini
+#          model: gpt-4o
 #      base-url: https://api.deepseek.com
       base-url: https://api.chatanywhere.tech
     vectorstore:

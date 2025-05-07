@@ -11,6 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MyChatResponse {
     private String chatId;
-    private String chainOfThought;
     private String answer;
 }
