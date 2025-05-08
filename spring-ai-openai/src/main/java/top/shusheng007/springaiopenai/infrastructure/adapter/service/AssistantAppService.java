@@ -7,6 +7,7 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
+import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -26,6 +27,7 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 public class AssistantAppService {
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
+    private final SyncMcpToolCallbackProvider toolCallbackProvider;
 
     public MyChatResponse chat(MyChatRequest myChatRequest) {
 
@@ -49,10 +51,10 @@ public class AssistantAppService {
                   If the requested information is not available from any sources, then respond by explaining the reason that the information is not available. 
                 """;
         SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate(systemMessage);
-        Prompt prompt = new Prompt(List.of(userMsg), ChatOptions
-                .builder()
+//        Prompt prompt = new Prompt(List.of(userMsg), ChatOptions
+//                .builder()
 //                .temperature(0.5D)
-                .build());
+//                .build());
 
         String response = chatClient
                 .prompt(systemPromptTemplate.create())
@@ -63,6 +65,7 @@ public class AssistantAppService {
                                 param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
                 .advisors(retrievalAugmentationAdvisor)
                 .tools(new DateTimeTools())
+                .toolCallbacks(toolCallbackProvider)
 //                .toolContext(Map.of("myOrderId","sng-001"))
                 .call()
                 .content();

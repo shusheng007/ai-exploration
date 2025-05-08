@@ -16,7 +16,15 @@ Follow these rules:
 Query: 介绍一下王二狗？
 
 Answer:
-, systemText=You are a helpful assistant, chatOptions=org.springframework.ai.chat.prompt.DefaultChatOptions@4450f815, media=[], functionNames=[], functionCallbacks=[], messages=[UserMessage{content='介绍一下王二狗？', properties={messageType=USER}, messageType=USER}], userParams={}, systemParams={}, advisors=[org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$1@4d3e354c, org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$2@1af45b75, SimpleLoggerAdvisor, org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor@37317dc3, org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$1@7462ab60, org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$2@48ca64f5, org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor@705db16a], advisorParams={chat_memory_conversation_id=王二狗}, adviseContext={rag_document_context=[Document{id='6d1f53d6-e40e-4775-abb2-c7939cd0d42f', text='我叫王二狗，于公元前3000年01月01日出生于X星球，
+, systemText=You are a helpful assistant, chatOptions=org.springframework.ai.chat.prompt.DefaultChatOptions@4450f815, media=[], functionNames=[], functionCallbacks=[],
+messages=[UserMessage{content='介绍一下王二狗？', properties={messageType=USER}, messageType=USER}], userParams={}, systemParams={},
+advisors=[org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$1@4d3e354c,
+org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$2@1af45b75,
+SimpleLoggerAdvisor, org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor@37317dc3,
+org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$1@7462ab60,
+org.springframework.ai.chat.client.DefaultChatClient$DefaultChatClientRequestSpec$2@48ca64f5,
+org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor@705db16a], advisorParams={chat_memory_conversation_id=王二狗},
+adviseContext={rag_document_context=[Document{id='6d1f53d6-e40e-4775-abb2-c7939cd0d42f', text='我叫王二狗，于公元前3000年01月01日出生于X星球，
 我天生神力，聪明绝顶，3岁即可吟诗3000首，5岁单手举重10万斤,
 13岁带领10万王家军队探索太空，15岁征服太阳系，18岁统治银河系...', media='null', metadata={charset=UTF-8, source=dog2wang_profile.txt, distance=0.1251375}, score=0.8748625069856644}], chat_memory_conversation_id=王二狗}, toolContext={}]
 2025-05-07T21:55:45.195+08:00 DEBUG 16312 --- [spring-ai-openai] [nio-8080-exec-5] o.s.a.c.c.advisor.SimpleLoggerAdvisor    : response: {
@@ -96,41 +104,21 @@ Answer:
   } ]
 }
 
-PS C:\Users\Administrator> http POST localhost:8080/ai/chat chatId=王二狗 question=介绍一下王二狗？
-HTTP/1.1 200
-Connection: keep-alive
-Content-Type: application/json
-Date: Wed, 07 May 2025 13:55:45 GMT
-Keep-Alive: timeout=60
-Transfer-Encoding: chunked
-
+http POST localhost:8080/ai/chat chatId=王二狗 question=介绍一下王二狗？
 {
-    "answer": "王二狗出生于公元前3000年01月01日，是X星球的一位杰出人物。他天生神力，聪明绝顶，3岁时就能吟诵3000首诗，5岁时单手举重10万斤。13岁时，他带领10万王家军队探索太空，15岁征服了太阳系，18岁时统治了整个银河系。",
+    "answer": "王二狗出生于公元前3000年01月01日，是X星球的一位杰出人物。他天生神力，聪明绝顶，3岁时就能吟诵3000首诗，
+               5岁时单手举重10万斤。13岁时，他带领10万王家军队探索太空，15岁征服了太阳系，18岁时统治了整个银河系。",
     "chatId": "王二狗"
 }
 
-PS C:\Users\Administrator> http POST localhost:8080/ai/chat chatId=王二狗 question=介绍一下王二狗媳妇？
-HTTP/1.1 200
-Connection: keep-alive
-Content-Type: application/json
-Date: Wed, 07 May 2025 13:58:04 GMT
-Keep-Alive: timeout=60
-Transfer-Encoding: chunked
-
+http POST localhost:8080/ai/chat chatId=王二狗 question=介绍一下王二狗媳妇？
 {
     "answer": "我不知道。",
     "chatId": "王二狗"
 }
 
 
-PS C:\Users\Administrator> http POST localhost:8080/ai/chat chatId=王二狗 question="Tianjin明天的天气怎么样"？
-HTTP/1.1 200
-Connection: keep-alive
-Content-Type: application/json
-Date: Wed, 07 May 2025 15:24:52 GMT
-Keep-Alive: timeout=60
-Transfer-Encoding: chunked
-
+http POST localhost:8080/ai/chat chatId=王二狗 question="Tianjin明天的天气怎么样"？
 {
     "answer": "明天（2025年5月8日），天津的天气预计为雨天。请记得带伞！",
     "chatId": "王二狗"

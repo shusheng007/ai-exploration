@@ -1,4 +1,4 @@
-package top.shusheng007.springaiopenai.application;
+package top.shusheng007.springaiopenai.application.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

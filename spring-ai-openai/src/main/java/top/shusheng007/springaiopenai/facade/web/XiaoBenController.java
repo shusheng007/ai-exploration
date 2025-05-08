@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.shusheng007.springaiopenai.application.IngestionService;
+import top.shusheng007.springaiopenai.application.service.IngestionService;
 import top.shusheng007.springaiopenai.infrastructure.adapter.service.AssistantAppService;
 import top.shusheng007.springaiopenai.facade.web.dto.MyChatRequest;
 import top.shusheng007.springaiopenai.facade.web.dto.MyChatResponse;

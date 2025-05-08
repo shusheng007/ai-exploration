@@ -24,6 +24,16 @@ spring:
         dimensions: 1536
         batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
         max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+    mcp:
+      client:
+        stdio:
+          connections:
+            filesystem:
+              command: npx
+              args:
+                - "-y"
+                - "@modelcontextprotocol/server-filesystem"
+                - "./"
 
 
 logging:
