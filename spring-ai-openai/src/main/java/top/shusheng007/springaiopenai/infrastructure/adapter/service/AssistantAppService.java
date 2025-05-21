@@ -2,6 +2,7 @@ package top.shusheng007.springaiopenai.infrastructure.adapter.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.ChatOptions;
@@ -20,14 +21,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 
 @RequiredArgsConstructor
 @Service
 public class AssistantAppService {
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
-    private final SyncMcpToolCallbackProvider toolCallbackProvider;
+//    private final SyncMcpToolCallbackProvider toolCallbackProvider;
 
     public MyChatResponse chat(MyChatRequest myChatRequest) {
 
@@ -43,12 +43,18 @@ public class AssistantAppService {
         String chatId = Optional
                 .ofNullable(myChatRequest.getChatId())
                 .orElse(UUID.randomUUID().toString());
-        Message userMsg = new UserMessage(myChatRequest.getQuestion());
+//        Message userMsg = new UserMessage(myChatRequest.getQuestion());
+//        String systemMessage = """
+//                  You are a helpful assistant.
+//                  Use your training data to provide answers about the questions.
+//                  If the requested information is not available in your training data, use the provided Tools to get the information.
+//                  If the requested information is not available from any sources, then respond by explaining the reason that the information is not available.
+//                """;
         String systemMessage = """
-                  You are a helpful assistant who answers questions about Weather. 
-                  Use your training data to provide answers about the questions. 
-                  If the requested information is not available in your training data, use the provided Tools to get the information.
-                  If the requested information is not available from any sources, then respond by explaining the reason that the information is not available. 
+                  You are a helpful assistant.
+                  Use your training data to provide answers about the questions.
+                  If the requested information is not available in your training data or user provided context, use the provided Tools to get the information.
+                  If the requested information is not available from any sources, then respond by explaining the reason that the information is not available.
                 """;
         SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate(systemMessage);
 //        Prompt prompt = new Prompt(List.of(userMsg), ChatOptions
@@ -62,10 +68,10 @@ public class AssistantAppService {
                 .user(myChatRequest.getQuestion())
                 .advisors(advisorSpec ->
                         advisorSpec.
-                                param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
+                                param(ChatMemory.CONVERSATION_ID, chatId))
                 .advisors(retrievalAugmentationAdvisor)
                 .tools(new DateTimeTools())
-                .toolCallbacks(toolCallbackProvider)
+//                .toolCallbacks(toolCallbackProvider)
 //                .toolContext(Map.of("myOrderId","sng-001"))
                 .call()
                 .content();

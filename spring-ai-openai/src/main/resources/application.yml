@@ -6,24 +6,41 @@ spring:
     username: vector-admin
     password: vector-admin
   ai:
+#    model:
+#      embedding: none
+
     openai:
-#      api-key: ${DS_API_KEY}
-      api-key: ${GPT_API_KEY_FREE}
+      api-key: ${DS_API_KEY}
+#      api-key: ${GPT_API_KEY_FREE}
       chat:
         options:
-#          model: deepseek-chat
-          model: gpt-4o-mini
+          model: deepseek-chat
+#          model: gpt-4o-mini
 #          model: gpt-4o
-#      base-url: https://api.deepseek.com
-      base-url: https://api.chatanywhere.tech
+      base-url: https://api.deepseek.com
+#      base-url: https://api.chatanywhere.tech
+      embedding:
+#        base-url: https://api.chatanywhere.tech
+#        embeddings-path: /v1/embeddings
+#        api-key: ${GPT_API_KEY_FREE}
+        base-url: https://dashscope.aliyuncs.com/compatible-mode
+        embeddings-path: /v1/embeddings
+        api-key: sk-dec11dc024584990b1611816fdd98de3
+#        api-key: ${ALY_API_KEY}
+        options:
+          model: text-embedding-v3
+          dimensions: 512
+
+
     vectorstore:
       pgvector:
-        initialize-schema: true
+        initialize-schema: false
         index-type: HNSW
         distance-type: COSINE_DISTANCE
-        dimensions: 1536
-        batching-strategy: TOKEN_COUNT # Optional: Controls how documents are batched for embedding
+#        dimensions: 1536
+        dimensions: 512
         max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+        table-name: aly_vector_store
     mcp:
       client:
         stdio:
