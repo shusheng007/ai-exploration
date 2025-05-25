@@ -16,19 +16,23 @@ import java.time.LocalDateTime;
  * Description
  */
 @Slf4j
-public class DateTimeTools {
+public class LifeHelpTools {
 
-    @Tool(description = "获取当前的日期和时间")
+    @Tool(name = "getCurrentDateTime", description = "获取当前的日期和时间")
     public String getCurrentDateTime() {
         log.info("==tool==: getCurrentDateTime");
+        log.info("--------------------------------------------------------------------");
         return LocalDateTime.now().atZone(LocaleContextHolder.getTimeZone().toZoneId()).toString();
     }
 
-    @Tool(description = "获取给定地点给定时间的天气")
+    @Tool(name = "checkWeatherForGivenLocationTime", description = "获取给定地点给定时间的天气")
     public Weather checkWeatherForGivenLocationTime(@ToolParam(description = "要查看的地点") String location,
                                                     @ToolParam(description = "要查看的时间") String time){
+        log.info("==tool==: checkWeatherForGivenLocationTime");
         log.info("==tool==: check weather in location:{} at time:{}",location, time);
-        if ("Tianjin".equalsIgnoreCase(location)){
+        log.info("---------------------------------------------------------------------");
+
+        if ("天津".equalsIgnoreCase(location)){
             return Weather.RAINY;
         }
         return Weather.SUNNY;

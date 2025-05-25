@@ -3,21 +3,18 @@ package top.shusheng007.springaiopenai.infrastructure.adapter.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.generation.augmentation.ContextualQueryAugmenter;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import top.shusheng007.springaiopenai.facade.web.dto.MyChatRequest;
 import top.shusheng007.springaiopenai.facade.web.dto.MyChatResponse;
-import top.shusheng007.springaiopenai.infrastructure.adapter.tool.DateTimeTools;
+import top.shusheng007.springaiopenai.infrastructure.adapter.tool.LifeHelpTools;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,9 +22,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class AssistantAppService {
+    @Qualifier("deepSeekChatClient")
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
-//    private final SyncMcpToolCallbackProvider toolCallbackProvider;
+    private final SyncMcpToolCallbackProvider toolCallbackProvider;
 
     public MyChatResponse chat(MyChatRequest myChatRequest) {
 
@@ -36,6 +34,9 @@ public class AssistantAppService {
                         .similarityThreshold(0.60)
                         .topK(3)
                         .vectorStore(vectorStore)
+                        .build())
+                .queryAugmenter(ContextualQueryAugmenter.builder()
+                        .allowEmptyContext(true)
                         .build())
                 .build();
 
@@ -70,8 +71,8 @@ public class AssistantAppService {
                         advisorSpec.
                                 param(ChatMemory.CONVERSATION_ID, chatId))
                 .advisors(retrievalAugmentationAdvisor)
-                .tools(new DateTimeTools())
-//                .toolCallbacks(toolCallbackProvider)
+                .tools(new LifeHelpTools())
+                .toolCallbacks(toolCallbackProvider.getToolCallbacks())
 //                .toolContext(Map.of("myOrderId","sng-001"))
                 .call()
                 .content();
