@@ -3,6 +3,7 @@ package top.shusheng007.springaiopenai.application.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import top.shusheng007.springaiopenai.application.dto.LogAnalyseReportResponse;
 import top.shusheng007.springaiopenai.application.port.LLMChatPort;
 import top.shusheng007.springaiopenai.application.dto.DefaultChatRequest;
 import top.shusheng007.springaiopenai.application.dto.DefaultChatResponse;
@@ -20,7 +21,7 @@ public class AssistantAppService {
         return llmChatPort.chat(request);
     }
 
-    public DefaultChatResponse analyseErrorLog(){
+    public LogAnalyseReportResponse analyseErrorLog(){
         log.info("==AssistantAppService==: analyseErrorLog");
         log.info("---------------------------------------------------------------------");
 

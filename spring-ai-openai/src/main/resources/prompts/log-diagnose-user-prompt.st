@@ -4,7 +4,7 @@ You are currently investigating error logs from a production environment. The go
 2.[Log Input]
 Here is the error log content (provided as raw text):
 
-{error_log}
+<error_log>
 
 3.[Analysis Process (Chain‑of‑Thought)]
 Please think step by step, performing the following sub‑steps in order:
@@ -28,3 +28,4 @@ Return the result in JSON format with the following structure:
   "confidence": "High/Medium/Low",
   "verification_notes": [ "...any uncertainties or missing info..." ]
 }
+Respond only with valid JSON, no explanatory text

@@ -2,10 +2,8 @@ package top.shusheng007.springaiopenai.facade.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import top.shusheng007.springaiopenai.application.dto.LogAnalyseReportResponse;
 import top.shusheng007.springaiopenai.application.service.AssistantAppService;
 import top.shusheng007.springaiopenai.application.service.IngestionService;
 import top.shusheng007.springaiopenai.application.dto.DefaultChatRequest;
@@ -32,9 +30,9 @@ public class XiaoBenController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/analyse-log")
-    public ResponseEntity<DefaultChatResponse> analyseLog() {
-        DefaultChatResponse response = assistantService.analyseErrorLog();
+    @GetMapping("/analyse-log")
+    public ResponseEntity<LogAnalyseReportResponse> analyseLog() {
+        LogAnalyseReportResponse response = assistantService.analyseErrorLog();
         return ResponseEntity.ok(response);
     }
 

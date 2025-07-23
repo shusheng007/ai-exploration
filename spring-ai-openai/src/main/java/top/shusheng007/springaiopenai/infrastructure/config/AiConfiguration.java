@@ -10,6 +10,7 @@ import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatOptions;
+import org.springframework.ai.deepseek.api.ResponseFormat;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -44,7 +45,11 @@ public class AiConfiguration {
     public ChatClient.Builder deepSeekChatClientBuilder(DeepSeekChatModel deepSeekChatModel) {
         return ChatClient.builder(deepSeekChatModel)
                 .defaultOptions(DeepSeekChatOptions.builder()
-                        .temperature(1.3).build())
+                        .temperature(1.3)
+                        .responseFormat(ResponseFormat.builder()
+                                .type(ResponseFormat.Type.JSON_OBJECT)
+                                .build())
+                        .build())
                 .defaultAdvisors(new SimpleLoggerAdvisor())
                 .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory()).build());
     }
@@ -58,13 +63,14 @@ public class AiConfiguration {
     public ChatClient.Builder openAiChatClientBuilder(OpenAiChatModel openAichatModel) {
         return ChatClient.builder(openAichatModel)
                 .defaultOptions(OpenAiChatOptions.builder()
-                        .temperature(0.7).build())
+                        .temperature(0.7)
+                        .build())
                 .defaultAdvisors(new SimpleLoggerAdvisor())//for log
                 .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory()).build());
     }
 
     @Bean
-    public ChatClient openAichatClient(@Qualifier("openAiChatClientBuilder") ChatClient.Builder openAiChatClientBuilder) {
+    public ChatClient openAiChatClient(@Qualifier("openAiChatClientBuilder") ChatClient.Builder openAiChatClientBuilder) {
         return openAiChatClientBuilder.build();
     }
 

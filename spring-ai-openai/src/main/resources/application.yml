@@ -36,8 +36,6 @@ spring:
         options:
           model: text-embedding-v3
           dimensions: 512
-
-
     vectorstore:
       pgvector:
         initialize-schema: false
@@ -48,6 +46,7 @@ spring:
         dimensions: 512
         table-name: aly_vector_store
         max-document-batch-size: 10000
+
     mcp:
       client:
         stdio:
