@@ -44,7 +44,7 @@ spring:
         index-type: HNSW
         distance-type: COSINE_DISTANCE
 #        dimensions: 1536
-#        table-name: vector_store
+#        table-name: openai_vector_store
         dimensions: 512
         table-name: aly_vector_store
         max-document-batch-size: 10000
@@ -65,6 +65,6 @@ spring:
 
 logging:
   level:
-    root: info
-    org.springframework.ai: debug
+    root: INFO
+    org.springframework.ai: DEBUG
     org.springframework.web.client.RestClient: DEBUG

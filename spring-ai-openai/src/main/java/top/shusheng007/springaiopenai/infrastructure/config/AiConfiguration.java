@@ -26,11 +26,11 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Configuration
+@RequiredArgsConstructor
 public class AiConfiguration {
-    //    private final VectorStore vectorStore;
-//    private final ChatMemoryRepository chatMemoryRepository;
+    //private final VectorStore vectorStore;
+    //private final ChatMemoryRepository chatMemoryRepository;
 
     @Bean
     public ChatMemory chatMemory() {
@@ -66,13 +66,6 @@ public class AiConfiguration {
     @Bean
     public ChatClient openAichatClient(@Qualifier("openAiChatClientBuilder") ChatClient.Builder openAiChatClientBuilder) {
         return openAiChatClientBuilder.build();
-//        return openAiChatClientBuilder
-////                .defaultSystem("You are a helpful assistant")
-//                .defaultAdvisors(new SimpleLoggerAdvisor())//for log
-//                .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory()).build())
-////                .defaultAdvisors(new PromptChatMemoryAdvisor(chatMemory())
-////                .defaultAdvisors(VectorStoreChatMemoryAdvisor.builder(vectorStore).build())
-//                .build();
     }
 
 

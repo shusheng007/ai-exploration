@@ -1,11 +1,11 @@
-package top.shusheng007.springaiopenai.facade.web.dto;
+package top.shusheng007.springaiopenai.application.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class MyChatRequest {
+public class DefaultChatRequest {
     private String chatId;
     private String question;
 }

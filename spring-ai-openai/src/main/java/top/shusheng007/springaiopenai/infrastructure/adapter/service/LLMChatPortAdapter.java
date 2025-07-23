@@ -3,6 +3,7 @@ package top.shusheng007.springaiopenai.infrastructure.adapter.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
@@ -11,23 +12,27 @@ import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import top.shusheng007.springaiopenai.facade.web.dto.MyChatRequest;
-import top.shusheng007.springaiopenai.facade.web.dto.MyChatResponse;
+import top.shusheng007.springaiopenai.application.port.LLMChatPort;
+import top.shusheng007.springaiopenai.application.dto.DefaultChatRequest;
+import top.shusheng007.springaiopenai.application.dto.DefaultChatResponse;
 import top.shusheng007.springaiopenai.infrastructure.adapter.tool.LifeHelpTools;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 
-@RequiredArgsConstructor
 @Service
-public class AssistantAppService {
+@RequiredArgsConstructor
+public class LLMChatPortAdapter implements LLMChatPort {
     @Qualifier("deepSeekChatClient")
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
     private final SyncMcpToolCallbackProvider toolCallbackProvider;
+    private final FileService fileService;
 
-    public MyChatResponse chat(MyChatRequest myChatRequest) {
+    @Override
+    public DefaultChatResponse chat(DefaultChatRequest defaultChatRequest) {
 
         RetrievalAugmentationAdvisor retrievalAugmentationAdvisor = RetrievalAugmentationAdvisor.builder()
                 .documentRetriever(VectorStoreDocumentRetriever.builder()
@@ -42,22 +47,10 @@ public class AssistantAppService {
 
 
         String chatId = Optional
-                .ofNullable(myChatRequest.getChatId())
+                .ofNullable(defaultChatRequest.getChatId())
                 .orElse(UUID.randomUUID().toString());
-//        Message userMsg = new UserMessage(myChatRequest.getQuestion());
-//        String systemMessage = """
-//                  You are a helpful assistant.
-//                  Use your training data to provide answers about the questions.
-//                  If the requested information is not available in your training data, use the provided Tools to get the information.
-//                  If the requested information is not available from any sources, then respond by explaining the reason that the information is not available.
-//                """;
-        String systemMessage = """
-                  You are a helpful assistant.
-                  Use your training data to provide answers about the questions.
-                  If the requested information is not available in your training data or user provided context, use the provided Tools to get the information.
-                  If the requested information is not available from any sources, then respond by explaining the reason that the information is not available.
-                """;
-        SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate(systemMessage);
+
+        SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate(fileService.loadFile(FileService.DEFAULT_SYSTEM_MESSAGE_PROMPT));
 //        Prompt prompt = new Prompt(List.of(userMsg), ChatOptions
 //                .builder()
 //                .temperature(0.5D)
@@ -65,8 +58,7 @@ public class AssistantAppService {
 
         String response = chatClient
                 .prompt(systemPromptTemplate.create())
-//                .prompt()
-                .user(myChatRequest.getQuestion())
+                .user(defaultChatRequest.getQuestion())
                 .advisors(advisorSpec ->
                         advisorSpec.
                                 param(ChatMemory.CONVERSATION_ID, chatId))
@@ -77,8 +69,31 @@ public class AssistantAppService {
                 .call()
                 .content();
 
-        return new MyChatResponse(chatId, response);
+        return new DefaultChatResponse(chatId, response);
     }
 
+    @Override
+    public DefaultChatResponse analyseErrorLog() {
+        final String chatId = "system-log-analyser";
+
+        PromptTemplate systemPromptTemplate = new SystemPromptTemplate(fileService.loadFile(FileService.LOG_DIAGNOSE_SYSTEM_MESSAGE_PROMPT));
+        PromptTemplate userPromptTemplate = PromptTemplate.builder()
+                .resource(fileService.loadFile(FileService.LOG_DIAGNOSE_USER_MESSAGE_PROMPT))
+                .variables(Map.of("error_log", fileService.loadFileContent(FileService.TEST_LOG_01)))
+                .build();
+
+        String response = chatClient
+                .prompt(systemPromptTemplate.create())
+                .user(userPromptTemplate.render())
+                .advisors(advisorSpec ->
+                        advisorSpec.
+                                param(ChatMemory.CONVERSATION_ID, chatId))
+                .toolCallbacks(toolCallbackProvider.getToolCallbacks())
+//                .toolContext(Map.of("myOrderId","sng-001"))
+                .call()
+                .content();
+
+        return new DefaultChatResponse(chatId, response);
+    }
 
 }

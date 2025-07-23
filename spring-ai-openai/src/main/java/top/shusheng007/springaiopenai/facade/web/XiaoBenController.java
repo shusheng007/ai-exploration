@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.shusheng007.springaiopenai.application.service.AssistantAppService;
 import top.shusheng007.springaiopenai.application.service.IngestionService;
-import top.shusheng007.springaiopenai.infrastructure.adapter.service.AssistantAppService;
-import top.shusheng007.springaiopenai.facade.web.dto.MyChatRequest;
-import top.shusheng007.springaiopenai.facade.web.dto.MyChatResponse;
+import top.shusheng007.springaiopenai.application.dto.DefaultChatRequest;
+import top.shusheng007.springaiopenai.application.dto.DefaultChatResponse;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,8 +27,15 @@ public class XiaoBenController {
     }
 
     @PostMapping("/chat")
-    public ResponseEntity<MyChatResponse> chat(@RequestBody MyChatRequest request) {
-        MyChatResponse response = assistantService.chat(request);
+    public ResponseEntity<DefaultChatResponse> chat(@RequestBody DefaultChatRequest request) {
+        DefaultChatResponse response = assistantService.chat(request);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/analyse-log")
+    public ResponseEntity<DefaultChatResponse> analyseLog() {
+        DefaultChatResponse response = assistantService.analyseErrorLog();
+        return ResponseEntity.ok(response);
+    }
+
 }

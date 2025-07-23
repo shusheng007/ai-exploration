@@ -1,4 +1,4 @@
-package top.shusheng007.springaiopenai.facade.web.dto;
+package top.shusheng007.springaiopenai.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyChatResponse {
+public class DefaultChatResponse {
     private String chatId;
     private String answer;
 }
